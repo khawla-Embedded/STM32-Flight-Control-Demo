@@ -11,6 +11,13 @@ uint32_t HAL_GetTick() {
     static uint32_t tick = 0;
     return tick++;
 }
+// Exemple de lecture capteur
+void MPU6050_Read(float* pitch, float* roll) {
+    uint8_t data[6];
+    HAL_I2C_Mem_Read(&hi2c1, MPU6050_ADDR, ACCEL_XOUT_H, 1, data, 6, 100);
+    *pitch = (int16_t)(data[0] << 8 | data[1]) / 16384.0f;
+    *roll = (int16_t)(data[2] << 8 | data[3]) / 16384.0f;
+}
 
 int main(void) {
     FlightData flight;
